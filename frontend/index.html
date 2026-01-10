@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regression Prediction App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>House Price Prediction</h1>
+        <form id="predictionForm">
+            <div class="form-group">
+                <label for="bedrooms">Bedrooms:</label>
+                <input type="number" id="bedrooms" name="bedrooms" min="1" max="10" required>
+            </div>
+            <div class="form-group">
+                <label for="bathrooms">Bathrooms:</label>
+                <input type="number" id="bathrooms" name="bathrooms" min="1" max="10" step="0.5" required>
+            </div>
+            <div class="form-group">
+                <label for="sqft_living">Living Area (sqft):</label>
+                <input type="number" id="sqft_living" name="sqft_living" min="500" max="10000" required>
+            </div>
+            <div class="form-group">
+                <label for="sqft_lot">Lot Size (sqft):</label>
+                <input type="number" id="sqft_lot" name="sqft_lot" min="1000" max="100000" required>
+            </div>
+            <div class="form-group">
+                <label for="floors">Floors:</label>
+                <input type="number" id="floors" name="floors" min="1" max="4" step="0.5" required>
+            </div>
+            <div class="form-group">
+                <label for="grade">Grade (1-13):</label>
+                <input type="number" id="grade" name="grade" min="1" max="13" required>
+            </div>
+            <button type="submit">Predict Price</button>
+        </form>
+        
+        <div id="result" class="result hidden">
+            <h2>Prediction Result</h2>
+            <div id="prediction"></div>
+            <div id="featureImportance" class="feature-importance hidden">
+                <h3>Feature Importance</h3>
+                <div id="importanceChart"></div>
+            </div>
+        </div>
+        
+        <div id="error" class="error hidden"></div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
