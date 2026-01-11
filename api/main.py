@@ -80,12 +80,7 @@ async def root():
 
 @app.post("/predict/regression", response_model=PredictionResponse, tags=["Prediction"])
 async def predict_regression(request: PredictionRequest):
-    """
-    Make a regression prediction based on input features
-    
-    - **features**: Dictionary of feature values (bedrooms, bathrooms, sqft_living, sqft_lot, floors, grade)
-    - **explain**: Optional flag to include feature importance in response
-    """
+  
     global last_prediction_time
     
     try:
@@ -128,9 +123,7 @@ async def predict_regression(request: PredictionRequest):
 
 @app.get("/health", response_model=HealthResponse, tags=["Health"])
 async def health_check():
-    """
-    Check the health status of the API service
-    """
+   
     try:
         # Try to get model instance to check if it's loaded
         model = get_model_instance('random_forest')
@@ -153,9 +146,7 @@ async def health_check():
 
 @app.get("/model/info", tags=["Model"])
 async def get_model_info():
-    """
-    Get information about the loaded model
-    """
+    
     try:
         model = get_model_instance('random_forest')
         return model.get_model_info()
