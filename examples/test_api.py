@@ -1,7 +1,3 @@
-#!/usr/bin/env python3
-"""
-Test script for the Regression Prediction API
-"""
 
 import requests
 import json
@@ -163,12 +159,11 @@ def main():
     print("Regression Prediction API Test Suite")
     print("=" * 50)
     
-    # Test if API is available
     if not test_health():
         print("\n❌ API is not available. Please ensure the server is running on port 8000.")
         return
     
-    # Run all tests
+
     test_prediction()
     test_invalid_input()
     test_model_info()
