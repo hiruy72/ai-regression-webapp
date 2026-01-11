@@ -15,16 +15,16 @@ class ModelLoader:
     def load_model(self):
         """Load the trained model and associated components"""
         try:
-            # Load metadata
+          
             metadata_path = f'models/saved/{self.algorithm}_metadata.json'
             with open(metadata_path, 'r') as f:
                 self.metadata = json.load(f)
             
-            # Load model
+         
             model_path = self.metadata['model_path']
             self.model = joblib.load(model_path)
             
-            # Load scaler if needed
+            
             if self.metadata.get('use_scaler', False):
                 scaler_path = self.metadata['scaler_path']
                 self.scaler = joblib.load(scaler_path)
@@ -38,7 +38,7 @@ class ModelLoader:
             return False
     
     def predict(self, features: Dict[str, float]) -> float:
-        """Make prediction from feature dictionary"""
+       
         if self.model is None:
             raise ValueError("Model not loaded. Call load_model() first.")
         
@@ -71,7 +71,7 @@ class ModelLoader:
         return None
     
     def get_model_info(self) -> Dict:
-        """Get model metadata and performance info"""
+       
         if self.metadata is None:
             return {}
         
@@ -115,7 +115,7 @@ class ModelLoader:
         
         return True, "Valid"
 
-# Global model instance
+
 model_instance = None
 
 def get_model_instance(algorithm='random_forest'):
