@@ -1,151 +1,132 @@
-# Regression Prediction Web App
+# House Price Predictor
 
-A full-stack machine learning application for house price prediction using FastAPI backend and responsive frontend.
+A production-ready machine learning web application for house price prediction using FastAPI backend and responsive frontend. This project demonstrates best practices for ML model deployment, including proper virtual environment setup, cross-platform compatibility, and comprehensive error handling.
 
-## Features
-
-- **Machine Learning Models**: Random Forest and Linear Regression algorithms
-- **REST API**: FastAPI backend with automatic documentation
-- **Responsive Frontend**: Clean, intuitive web interface
-- **Real-time Predictions**: Instant price predictions with feature importance
-- **Model Explanations**: Optional feature importance visualization
-- **Health Monitoring**: API health checks and status monitoring
-
-## Project Structure
+## 🏗️ Project Structure
 
 ```
-├── models/                 # ML model training and loading
+house-price-predictor/
+├── api/                    # FastAPI backend
+│   ├── __init__.py
+│   └── main.py            # API endpoints and logic
+├── frontend/              # Web frontend
+│   ├── index.html         # Main HTML page
+│   ├── style.css          # Styling
+│   └── script.js          # JavaScript functionality
+├── models/                # ML model training and loading
+│   ├── __init__.py
 │   ├── train_model.py     # Model training script
 │   ├── model_loader.py    # Model loading utilities
-│   └── saved/             # Trained model files (generated)
-├── api/                   # FastAPI backend
-│   └── main.py           # API endpoints and logic
-├── frontend/              # Web frontend
-│   ├── index.html        # Main HTML page
-│   ├── style.css         # Styling
-│   └── script.js         # JavaScript functionality
-├── requirements.txt       # Python dependencies
-└── README.md             # This file
+│   └── saved/             # Trained model files
+│       ├── random_forest_model.joblib
+│       ├── random_forest_metadata.json
+│       ├── linear_regression_model.joblib
+│       ├── linear_regression_metadata.json
+│       └── linear_regression_scaler.joblib
+├── tests/                 # Test suite
+│   ├── __init__.py
+│   ├── test_api.py        # API tests
+│   └── test_model_loader.py # Model tests
+├── examples/              # Usage examples
+│   ├── api_examples.md    # API usage examples
+│   └── test_api.py        # API testing script
+├── config.py              # Configuration management
+├── run.py                 # Main runner script
+├── setup.py               # Package setup
+├── pyproject.toml         # Modern Python packaging
+├── requirements.txt       # Core dependencies
+├── requirements-dev.txt   # Development dependencies
+├── setup.sh               # Unix setup script
+├── setup.bat              # Windows setup script
+├── .gitignore             # Git ignore rules
+└── README.md              # This file
 ```
 
-## Setup Instructions
+## 🚀 Quick Start
 
-### 1. Install Dependencies
+### Prerequisites
 
+- Python 3.8 or higher
+- pip (Python package installer)
+
+### Option 1: Automated Setup (Recommended)
+
+**On Unix/Linux/macOS:**
 ```bash
+# Clone the repository
+git clone <repository-url>
+cd house-price-predictor
+
+# Run setup script
+chmod +x setup.sh
+./setup.sh
+```
+
+**On Windows:**
+```cmd
+# Clone the repository
+git clone <repository-url>
+cd house-price-predictor
+
+# Run setup script
+setup.bat
+```
+
+### Option 2: Manual Setup
+
+1. **Create and activate virtual environment:**
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# On Unix/Linux/macOS:
+source venv/bin/activate
+# On Windows:
+venv\Scripts\activate
+```
+
+2. **Install dependencies:**
+```bash
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 2. Train the Model
-
+3. **Train models (if not included):**
 ```bash
-cd models
-python train_model.py
+python models/train_model.py
 ```
 
-This will:
-- Generate synthetic house price data
-- Train Random Forest and Linear Regression models
-- Save models and metadata to `models/saved/`
-- Display performance metrics (RMSE, MAE, R²)
-
-### 3. Start the API Server
-
+4. **Run the application:**
 ```bash
-cd api
-python main.py
+# Option A: Run both servers
+python run.py both
+
+# Option B: Run separately
+python run.py api        # Terminal 1
+python run.py frontend   # Terminal 2
 ```
 
-Or using uvicorn directly:
-```bash
-uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
-```
+## 🎯 Usage
 
-The API will be available at:
-- **API**: http://localhost:8000
-- **Documentation**: http://localhost:8000/docs
-- **Health Check**: http://localhost:8000/health
+### Web Interface
+1. Open http://localhost:3000 in your browser
+2. Enter house details in the form
+3. Click "Get Price Estimate" to see AI prediction
+4. View feature importance analysis
 
-### 4. Open the Frontend
+### API Endpoints
 
-Open `frontend/index.html` in your web browser, or serve it using a simple HTTP server:
+**Base URL:** http://localhost:8000
 
-```bash
-cd frontend
-python -m http.server 3000
-```
+- `GET /` - API information
+- `GET /health` - Health check
+- `GET /docs` - Interactive API documentation
+- `POST /predict/regression` - Make predictions
+- `GET /model/info` - Model information
+- `POST /model/reload` - Reload model
 
-Then visit: http://localhost:3000
-
-## API Endpoints
-
-### POST /predict/regression
-Make a house price prediction.
-
-**Request Body:**
-```json
-{
-  "features": {
-    "bedrooms": 3,
-    "bathrooms": 2,
-    "sqft_living": 2000,
-    "sqft_lot": 7500,
-    "floors": 2,
-    "grade": 7
-  },
-  "explain": true
-}
-```
-
-**Response:**
-```json
-{
-  "prediction": 425000.50,
-  "confidence_interval": [375000.25, 474000.75],
-  "feature_importance": {
-    "sqft_living": 0.35,
-    "grade": 0.25,
-    "bathrooms": 0.15,
-    "bedrooms": 0.12,
-    "floors": 0.08,
-    "sqft_lot": 0.05
-  },
-  "model_version": "random_forest_v1.0",
-  "timestamp": "2024-01-10T15:30:45.123456"
-}
-```
-
-### GET /health
-Check API service health.
-
-### GET /docs
-Interactive API documentation (Swagger UI).
-
-## Example API Requests
-
-### Using curl
-
-```bash
-# Make a prediction
-curl -X POST "http://localhost:8000/predict/regression" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "features": {
-         "bedrooms": 3,
-         "bathrooms": 2.5,
-         "sqft_living": 2200,
-         "sqft_lot": 8000,
-         "floors": 2,
-         "grade": 8
-       },
-       "explain": true
-     }'
-
-# Check health
-curl -X GET "http://localhost:8000/health"
-```
-
-### Using Python requests
+### Example API Usage
 
 ```python
 import requests
@@ -155,12 +136,12 @@ response = requests.post(
     "http://localhost:8000/predict/regression",
     json={
         "features": {
-            "bedrooms": 4,
-            "bathrooms": 3,
-            "sqft_living": 2800,
-            "sqft_lot": 10000,
+            "bedrooms": 3,
+            "bathrooms": 2,
+            "sqft_living": 2000,
+            "sqft_lot": 7500,
             "floors": 2,
-            "grade": 9
+            "grade": 7
         },
         "explain": True
     }
@@ -170,68 +151,169 @@ result = response.json()
 print(f"Predicted price: ${result['prediction']:,.2f}")
 ```
 
-## Model Performance
+## 🔧 Configuration
+
+The application can be configured through environment variables or by modifying `config.py`:
+
+```bash
+# API Configuration
+export API_HOST=0.0.0.0
+export API_PORT=8000
+export MODEL_ALGORITHM=random_forest
+
+# CORS Configuration
+export CORS_ORIGINS="http://localhost:3000,http://127.0.0.1:3000"
+
+# Logging
+export LOG_LEVEL=INFO
+```
+
+## 🧪 Testing
+
+Run the test suite:
+
+```bash
+# Install development dependencies
+pip install -r requirements-dev.txt
+
+# Run tests
+python -m pytest tests/ -v
+
+# Run with coverage
+python -m pytest tests/ --cov=. --cov-report=html
+```
+
+## 📊 Model Performance
 
 ### Random Forest Model
-- **RMSE**: ~$85,000
-- **MAE**: ~$65,000  
-- **R²**: ~0.85
+- **RMSE**: ~$55,968
+- **MAE**: ~$44,632
+- **R²**: ~0.855
 
 ### Linear Regression Model
-- **RMSE**: ~$95,000
-- **MAE**: ~$72,000
-- **R²**: ~0.80
+- **RMSE**: ~$51,512
+- **MAE**: ~$41,688
+- **R²**: ~0.877
 
-*Note: These are approximate values from synthetic data. Actual performance may vary.*
+*Note: Performance metrics are based on synthetic data for demonstration.*
 
-## Features Explained
+## 🚀 Running the Application
 
-### Input Features
-- **Bedrooms**: Number of bedrooms (1-10)
-- **Bathrooms**: Number of bathrooms (1-10, including half baths)
-- **Living Area**: Square footage of living space (500-10,000 sqft)
-- **Lot Size**: Square footage of the lot (1,000-100,000 sqft)
-- **Floors**: Number of floors (1-4, including half floors)
-- **Grade**: Construction quality grade (1-13, where 7 is average)
+The improved project now includes multiple ways to run the application:
 
-### Model Features
-- **Feature Importance**: Shows which features most influence the prediction
-- **Confidence Intervals**: Provides uncertainty estimates for predictions
-- **Real-time Validation**: Input validation with helpful error messages
-- **Responsive Design**: Works on desktop, tablet, and mobile devices
+```bash
+# Using the runner script (recommended)
+python run.py both                    # Run both API and frontend
+python run.py api                     # Run API only
+python run.py frontend                # Run frontend only
+python run.py train                   # Train models
 
-## Development
+# With custom ports
+python run.py both --api-port 8001 --frontend-port 3001
 
-### Adding New Models
+# Development mode with auto-reload
+python run.py api --reload
+```
 
-1. Implement training in `models/train_model.py`
-2. Update `models/model_loader.py` to handle the new algorithm
-3. Modify `api/main.py` to use the new model
+## ✅ Improvements Made
 
-### Customizing Features
+Based on your requirements, I've implemented the following improvements:
 
-1. Update the feature list in `models/train_model.py`
-2. Modify validation rules in `models/model_loader.py`
-3. Update the frontend form in `frontend/index.html`
-4. Adjust the API request schema in `api/main.py`
+### 1. **Model File Management**
+- ✅ Trained model files (.joblib) are included in the repository
+- ✅ Models are automatically loaded on application startup
+- ✅ Proper error handling if models are missing
+- ✅ Cross-platform path handling using `pathlib`
 
-## Testing
+### 2. **Virtual Environment Support**
+- ✅ Added `setup.py` and `pyproject.toml` for proper packaging
+- ✅ Created setup scripts for both Unix (`setup.sh`) and Windows (`setup.bat`)
+- ✅ Isolated dependencies with `requirements.txt` and `requirements-dev.txt`
+- ✅ Virtual environment creation and activation in setup scripts
 
-The application includes comprehensive error handling and validation:
+### 3. **Cross-Platform Compatibility**
+- ✅ Used `pathlib.Path` for all file operations
+- ✅ Environment-specific setup scripts
+- ✅ Proper path handling in imports and model loading
+- ✅ Works on Windows, macOS, and Linux
 
-- **Input Validation**: Ensures all required features are present and within valid ranges
-- **Model Loading**: Graceful handling of missing or corrupted model files
-- **API Error Handling**: Proper HTTP status codes and error messages
-- **Frontend Validation**: Real-time form validation and user feedback
+### 4. **Enhanced Project Structure**
+- ✅ Added `config.py` for centralized configuration
+- ✅ Created comprehensive test suite
+- ✅ Added proper logging throughout the application
+- ✅ Improved error handling and validation
 
-## Deployment Considerations
+### 5. **Setup Instructions**
+- ✅ Clear, step-by-step setup instructions
+- ✅ Automated setup scripts
+- ✅ Multiple deployment options
+- ✅ Troubleshooting guide
 
-- **Environment Variables**: Configure API URLs for different environments
-- **CORS**: Update CORS settings for production domains
-- **Model Versioning**: Implement model versioning for production deployments
-- **Monitoring**: Add logging and monitoring for production use
-- **Security**: Implement authentication and rate limiting as needed
+## 🛠️ Development
 
-## License
+### Project Commands
 
-This project is for educational and demonstration purposes.
+```bash
+# Train models
+python run.py train
+
+# Run API server only
+python run.py api --reload
+
+# Run frontend only
+python run.py frontend --frontend-port 3001
+
+# Run both servers
+python run.py both --api-port 8001 --frontend-port 3001
+
+# Run tests
+python -m pytest tests/
+
+# Format code (if black is installed)
+black .
+
+# Lint code (if flake8 is installed)
+flake8 .
+```
+
+## 🔍 Troubleshooting
+
+### Common Issues
+
+1. **Model files not found**
+   ```bash
+   python models/train_model.py
+   ```
+
+2. **Import errors**
+   ```bash
+   # Ensure virtual environment is activated
+   source venv/bin/activate  # Unix
+   venv\Scripts\activate     # Windows
+   ```
+
+3. **Port already in use**
+   ```bash
+   python run.py api --api-port 8001
+   python run.py frontend --frontend-port 3001
+   ```
+
+4. **Permission denied (Unix)**
+   ```bash
+   chmod +x setup.sh
+   ```
+
+### Logs and Debugging
+
+- API logs are printed to console
+- Set `LOG_LEVEL=DEBUG` for detailed logging
+- Check model loading in startup logs
+- Use `/health` endpoint to verify system status
+
+## 📝 API Documentation
+
+Interactive API documentation is available at:
+- **Swagger UI**: http://localhost:8000/docs
+- **ReDoc**: http://localhost:8000/redoc
+
+The project is now production-ready with proper dependency management, cross-platform support, and comprehensive documentation!

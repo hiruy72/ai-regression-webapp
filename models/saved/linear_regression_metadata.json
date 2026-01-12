@@ -9,13 +9,16 @@
     "grade"
   ],
   "target_variable": "price",
-  "training_date": "2026-01-10T01:17:29.181494",
+  "training_date": "2026-01-12T08:19:31.101637",
+  "training_samples": 2000,
+  "test_samples": 400,
   "performance_metrics": {
     "rmse": 51512.06310662235,
     "mae": 41688.036443354315,
     "r2": 0.8769035368822614
   },
   "use_scaler": true,
-  "model_path": "models/saved/linear_regression_model.joblib",
-  "scaler_path": "models/saved/linear_regression_scaler.joblib"
+  "model_path": "C:\\Users\\lenovo\\Desktop\\project-3\\models\\saved\\linear_regression_model.joblib",
+  "scaler_path": "C:\\Users\\lenovo\\Desktop\\project-3\\models\\saved\\linear_regression_scaler.joblib",
+  "metadata_path": "C:\\Users\\lenovo\\Desktop\\project-3\\models\\saved\\linear_regression_metadata.json"
 }

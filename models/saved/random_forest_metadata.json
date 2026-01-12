@@ -9,13 +9,16 @@
     "grade"
   ],
   "target_variable": "price",
-  "training_date": "2026-01-10T01:17:29.130855",
+  "training_date": "2026-01-12T08:19:31.060577",
+  "training_samples": 2000,
+  "test_samples": 400,
   "performance_metrics": {
     "rmse": 55968.1894083219,
     "mae": 44631.82463928821,
     "r2": 0.8546850818804319
   },
   "use_scaler": false,
-  "model_path": "models/saved/random_forest_model.joblib",
-  "scaler_path": null
+  "model_path": "C:\\Users\\lenovo\\Desktop\\project-3\\models\\saved\\random_forest_model.joblib",
+  "scaler_path": null,
+  "metadata_path": "C:\\Users\\lenovo\\Desktop\\project-3\\models\\saved\\random_forest_metadata.json"
 }
